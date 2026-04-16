@@ -4,13 +4,24 @@ const App = () => {
   const sentence = "The quick brown fox jumps over the lazy dog.";
   const [userInput, setUserInput] = useState("");
   const [isCompleted, setIsCompleted] = useState(false);
+  const [isCorrect, setIsCorrect] = useState(true);
 
-  const isCorrect = null;
-  const isWrong = null;
+  const handleInputChange = (e) => {
+    setUserInput(e.target.value);
+    let currentInput = e.target.value;
+    if (currentInput === sentence.slice(0, currentInput.length)) {
+      setIsCorrect(true);
+    } else {
+      setIsCorrect(false);
+    }
+    if (currentInput.length === sentence.length && isCorrect) {
+      setIsCompleted(true);
+    }
+  };
 
-  const handleInputChange = () => {};
-
-  const resetApp = () => {};
+  const resetApp = () => {
+    setUserInput("");
+  };
 
   return (
     <div className="max-w-2xl mx-auto p-8">
@@ -47,7 +58,7 @@ const App = () => {
         <input
           type="text"
           value={userInput}
-          onChange={handleInputChange}
+          onChange={(event) => handleInputChange(event)}
           placeholder="Start typing the sentence above..."
           className="w-full p-4 text-lg border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none font-mono"
           disabled={isCompleted}
@@ -71,14 +82,14 @@ const App = () => {
           <div className="p-3 bg-green-100 border border-green-300 rounded-lg">
             <p className="text-xl font-semibold text-green-800">Correct</p>
           </div>
-        ) : isWrong ? (
+        ) : (
           <div className="p-3 bg-red-100 border border-red-300 rounded-lg">
             <p className="text-xl font-semibold text-red-800">Wrong</p>
             <p className="text-red-600 text-sm mt-1">
               Delete the incorrect character to continue
             </p>
           </div>
-        ) : null}
+        )}
       </div>
 
       {/* Progress indicator */}
